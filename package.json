@@ -1,0 +1,20 @@
+{
+  "name": "route25-test",
+  "version": "0.0.0",
+  "description": "",
+  "homepage": "https://github.com/AkamachiYuta/route25-test#readme",
+  "bugs": {
+    "url": "https://github.com/AkamachiYuta/route25-test/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AkamachiYuta/route25-test.git"
+  },
+  "license": "ISC",
+  "author": "ADE",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
