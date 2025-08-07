@@ -23,4 +23,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          exclude: "[**/.**/**, .gitignore, .htaccess, webpack.config.js, tsconfig.json, **/docker/**, **/.git/**, **/node_modules/**, **/vendor/**, .editorconfig, README.md, .phpcs.xml.dist, **.yml, **.lock, package.json, package-lock.json, **/src/**, cfam_data_**]"
+          exclude: "[**/.**/**, .gitignore, .htaccess, webpack.config.js, tsconfig.json, **/docker/**, **/.git/**, **/node_modules/**, **/vendor/**, .editorconfig, README.md, .phpcs.xml.dist, **.yml, **.lock, package.json, package-lock.json, **/src/**"
