@@ -1,0 +1,35 @@
+name: Deploy via Github Actions to Production
+on:
+  push:
+    branches:
+      - prime
+    #tags:
+    #  - '[0-9]+.[0-9]+.[0-9]*'
+
+jobs:
+  test:
+    name: Deploy to server
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "18"
+      - name: build
+        run: |
+          npm i
+          npm run build
+
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          exclude: "[**/.**/**, .gitignore, .htaccess, webpack.config.js, tsconfig.json, **/docker/**, **/.git/**, **/node_modules/**, **/vendor/**, .editorconfig, README.md, .phpcs.xml.dist, **.yml, **.lock, package.json, package-lock.json, **/src/**, cfam_data_**]"
