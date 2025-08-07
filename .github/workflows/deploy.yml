@@ -15,15 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "18"
-      - name: build
-        run: |
-          npm i
-          npm run build
-
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
