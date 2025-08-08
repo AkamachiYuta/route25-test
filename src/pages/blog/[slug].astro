@@ -1,0 +1,44 @@
+---
+import { getPostBySlug } from "../../lib/getMarkdownPosts";
+import { marked } from "marked";
+import fs from "fs";
+
+export async function getStaticPaths() {
+  const directory = "./contents";
+  const files = fs.readdirSync(directory);
+
+  const paths = [];
+
+  for (const filename of files) {
+    if (!filename.endsWith(".md")) continue;
+
+    const slug = filename.replace(/\.md$/, "");
+    paths.push({ params: { slug } });
+  }
+
+  console.log(paths);
+
+  return paths;
+}
+
+const { slug } = Astro.params;
+const post = getPostBySlug(slug);
+
+if (!post) {
+  throw new Error(`記事が見つかりませんでした: ${slug}`);
+}
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{post.title}</title>
+  </head>
+  <body>
+    <main>
+      <h1>{post.title}</h1>
+      <p><em>{post.date}</em></p>
+      <div set:html={marked(post.content)} />
+    </main>
+  </body>
+</html>
