@@ -7,6 +7,8 @@ contents/
 
 # dependencies
 node_modules/
+vendor/
+*.lock
 
 # logs
 npm-debug.log*
@@ -16,7 +18,7 @@ pnpm-debug.log*
 
 # environment variables
 .env
-.env.production
+.env.release
 
 # macOS-specific files
 .DS_Store
