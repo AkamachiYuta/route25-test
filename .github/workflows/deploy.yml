@@ -15,6 +15,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: PHP環境をセットアップ
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: curl, mbstring, zip
+          coverage: none
+
+      - name: Composerで依存関係をインストール
+        run: composer install --no-dev --optimize-autoloader
+
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
@@ -23,4 +33,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          exclude: "[**/.**/**, .gitignore, .htaccess, webpack.config.js, tsconfig.json, **/docker/**, **/.git/**, **/node_modules/**, **/vendor/**, .editorconfig, README.md, .phpcs.xml.dist, **.yml, **.lock, package.json, package-lock.json, **/src/**"
+          exclude: "[**/.**/**, .gitignore, .htaccess, webpack.config.js, tsconfig.json, **/docker/**, **/.git/**, **/node_modules/**, **/vendor/**, .editorconfig, README.md, .phpcs.xml.dist, **.yml, **.lock, .env, .env.release, package.json, package-lock.json, **/src/**"
