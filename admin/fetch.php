@@ -25,7 +25,7 @@ if (!$token) {
 $owner = 'AkamachiYuta';
 $repo = 'route25_akamachi.jp';
 $branch = 'main';
-$path = 'dist/blog/test/index.html';
+$path = 'contents/test.md';
 
 // GitHubクライアント
 $client = new Client();
