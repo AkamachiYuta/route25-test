@@ -1,9 +1,15 @@
 <?php
+
+if (!defined(constant_name: 'CURL_SSLVERSION_TLSv1_2'))
+  define(constant_name: 'CURL_SSLVERSION_TLSv1_2', value: 6);
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Github\Client;
 use Github\AuthMethod;
 use Dotenv\Dotenv;
+
+header(header: 'Content-Type: text/html; charset=UTF-8');
 
 //  .env 読み込み
 $dotenv = Dotenv::createImmutable(paths: __DIR__ . "/../");
@@ -36,10 +42,8 @@ try {
     $path,
     $branch
   );
-  $content = base64_decode($file['content']);
-
-  header('Content-Type: text/html; charset=UTF-8');
+  $content = base64_decode(string: $file['content']);
   echo $content;
 } catch (\Exception $e) {
-  echo "❌ 取得失敗: " . htmlspecialchars($e->getMessage());
+  echo "❌ 取得失敗: " . htmlspecialchars(string: $e->getMessage());
 }

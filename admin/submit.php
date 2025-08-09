@@ -1,4 +1,8 @@
 <?php
+
+if (!defined(constant_name: 'CURL_SSLVERSION_TLSv1_2'))
+  define(constant_name: 'CURL_SSLVERSION_TLSv1_2', value: 6);
+
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use Github\Client;
