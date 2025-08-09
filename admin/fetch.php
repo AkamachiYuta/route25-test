@@ -43,6 +43,10 @@ try {
     $branch
   );
   $content = base64_decode(string: $file['content']);
+  echo "<pre>";
+  var_dump(value: $file['content']);
+  var_dump(value: $content);
+  echo "</pre>";
   echo $content;
 } catch (\Exception $e) {
   echo "❌ 取得失敗: " . htmlspecialchars(string: $e->getMessage());
