@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // Markdownの組み立て
   $filename = "contents/{$slug}.md"; // ← GitHub上のパス
   $markdown = "---\ntitle: {$title}\ndate: " . date(format: "Y-m-d") . "\n---\n\n{$content}";
-  $encoded = base64_encode(string: $markdown);
+  // $encoded = base64_encode(string: $markdown);
 
   // GitHubクライアント
   $client = new Client();
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $owner,
       $repo,
       $filename,
-      $encoded,
+      $markdown,
       "記事投稿: {$title}",
       $branch,
       [
