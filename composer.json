@@ -1,12 +1,22 @@
 {
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
     "require": {
+        "php": "^8.4",
         "knplabs/github-api": "^3.16",
         "symfony/http-client": "^7.3",
-        "nyholm/psr7": "^1.8"
+        "nyholm/psr7": "^1.8",
+        "vlucas/phpdotenv": "^5.6"
     },
     "config": {
         "allow-plugins": {
             "php-http/discovery": true
         }
+    },
+    "require-dev": {
+        "php-stubs/woocommerce-stubs": "^10.0"
     }
 }

@@ -1,24 +1,63 @@
 <?php
-// 保存先ディレクトリ（書き込み権限が必要）
-$save_dir = __DIR__ . '/../contents/';
+require_once __DIR__ . "/../vendor/autoload.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $title = $_POST['title'] ?? '';
-  $slug = $_POST['slug'] ?? '';
-  $content = $_POST['content'] ?? '';
+use Github\Client;
+use Github\AuthMethod;
+use Dotenv\Dotenv;
+
+//  .env 読み込み
+$dotenv = Dotenv::createImmutable(paths: __DIR__ . "/../");
+$dotenv->load();
+
+// トークン取得
+$token = $_ENV["GITHUB_TOKEN"] ?? null;
+if (!$token) {
+  die("トークンが見つかりません。");
+}
+
+// GitHubその他設定
+$owner = "AkamachiYuta";
+$repo = "route25_akamachi.jp";
+$branch = "main";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  $title = $_POST["title"] ?? "";
+  $slug = $_POST["slug"] ?? "";
+  $content = $_POST["content"] ?? "";
 
   if (!$title || !$slug || !$content) {
-    die('すべての項目を入力してください。');
+    die("すべての項目を入力してください。");
   }
 
-  // Markdown形式で保存
-  $filename = $save_dir . $slug . '.md';
-  $markdown = "---\ntitle: {$title}\ndate: " . date('Y-m-d') . "\n---\n\n{$content}";
+  // Markdownの組み立て
+  $filename = "contents/{$slug}.md"; // ← GitHub上のパス
+  $markdown = "---\ntitle: {$title}\ndate: " . date(format: "Y-m-d") . "\n---\n\n{$content}";
+  $encoded = base64_encode(string: $markdown);
 
-  if (file_put_contents($filename, $markdown)) {
-    echo "保存成功！<a href='index.html'>戻る</a>";
-  } else {
-    echo "保存に失敗しました。パーミッションを確認してください。";
+  // GitHubクライアント
+  $client = new Client();
+  $client->authenticate(
+    tokenOrLogin: $token,
+    password: null,
+    authMethod: AuthMethod::ACCESS_TOKEN
+  );
+
+  try {
+    $client->api(name: "repo")->contents()->create(
+      $owner,
+      $repo,
+      $filename,
+      $encoded,
+      "記事投稿: {$title}",
+      $branch,
+      [
+        "name" => "Route25 Submit",
+        "email" => "route25@example.com",
+      ]
+    );
+    echo "✅ GitHubへの保存成功！<a href='index.html'>戻る</a>";
+  } catch (\Github\Exception\RuntimeException $e) {
+    echo "❌ 保存失敗: " . htmlspecialchars(string: $e->getMessage());
   }
 } else {
   echo "無効なアクセスです。";
